@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String
+  email String  @unique
+  password String
+  avatar String
+  posts Post[]
+  comments  Comment[]
+  likes     Like[]
+  likecomments LikeComment[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String
+  img       String
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  Int
+  comments Comment[]
+  likes     Like[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  content   String
+  img       String
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  Int
+  commentLikes LikeComment[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model LikeComment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  commentId Int
+  comment Comment    @relation(fields: [commentId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

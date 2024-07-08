@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nodejs</title>
+</head>
+
+<body>
+    <div class="header">
+        <div>
+            <h1>AO THAT DAY</h1>
+        </div>
+        <div class="user-menu">
+            <img src="http://localhost:3000/imgs/hero.png" alt="hero" id="user-img">
+            <div id="menu" style="display: none;">
+                <div class="action">
+                    <p>User</p>
+                </div>
+                <div class="action">
+                    <p id="logout">Logout</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="post-menu">
+            <div class="post">
+                <div class="post-header">
+                    <div class="header-1">
+                        <img src="http://localhost:3000/imgs/hero.png" alt="user-avatar">
+                        <div class="post-info">
+                            <p class="post-user-name">Hùng</p>
+                            <p class="post-time">30 tháng 2 năm 2024</p>
+                        </div>
+                    </div>
+                    <div class="header-2">
+                        <p>...</p>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae harum quos officia sed
+                        temporibus voluptate architecto veritatis, autem dolore voluptatibus voluptas iste, reiciendis
+                        sequi deserunt rerum placeat ea expedita atque.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat enim iusto repellendus sint
+                        obcaecati, soluta quas quidem recusandae inventore vel repudiandae suscipit beatae illo
+                        consequatur ratione voluptatum error, porro ipsa.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam ipsam a doloribus. Dolorum
+                        praesentium ut id dolorem vitae! Exercitationem perspiciatis fuga harum cum nisi alias unde
+                        reiciendis eos autem nobis.
+                    </div>
+                    <div class="post-body-img">
+                        <img src="http://localhost:3000/imgs/hero.png" alt="img">
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="post-footer-wrap-1">
+                        <p>18K</p>
+                        <div>
+                            <p>100 Comments</p>
+                            <p>1k Shares</p>
+                        </div>
+                    </div>
+                    <div class="post-footer-wrap-2">
+                        <div id="like"><img src="http://localhost:3000/imgs/unlike.svg" alt="unlike" width="25"
+                                height="25"><span>Like</span></div>
+                        <div><span>Comment</span></div>
+                        <div><span>Share</span></div>
+                    </div>
+                </div>
+                <div class="comment">
+                    <div class="comment-header">
+                        <select name="" id="">
+                            <option value="1" selected>mới nhất</option>
+                            <option value="2">cũ nhất</option>
+                            <option value="3">tất cả</option>
+                        </select>
+                    </div>
+                    <div class="comment-body">
+                        <div>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae harum quos officia sed
+                            temporibus voluptate architecto veritatis, autem dolore voluptatibus voluptas iste,
+                            reiciendis
+                            sequi deserunt rerum placeat ea expedita atque.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat enim iusto repellendus sint
+                            obcaecati, soluta quas quidem recusandae inventore vel repudiandae suscipit beatae illo
+                            consequatur ratione voluptatum error, porro ipsa.
+                        </div>
+                    </div>
+                    <div class="comment-input">
+                        <input type="text" placeholder="write your comment">
+                        <img src="http://localhost:3000/imgs/send.svg" width="40" height="40" alt="send"
+                            style="cursor: pointer;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+
+    </div>
+</body>
+<script>
+    const baseURL = window.location.origin
+    const logout = document.getElementById('logout');
+    const userImg = document.getElementById('user-img');
+    const menu = document.getElementById('menu');
+    const like = document.getElementById('like');
+
+    const setStyle = () => {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = `${baseURL}/style/index.css`;
+        link.type = 'text/css';
+
+        var head = document.head || document.getElementsByTagName('head')[0];
+
+        head.appendChild(link);
+    }
+
+    setStyle()
+
+    userImg.addEventListener('click', function () {
+        if (menu.style.display == "none") {
+            menu.style.display = "flex"
+        } else {
+            menu.style.display = "none"
+        }
+    })
+    logout.addEventListener('click', async function () {
+        await fetch(baseURL + '/logout');
+        window.location.reload();
+    })
+
+    like.addEventListener('click', async function () {
+        const img = this.children.item('img');
+        if (img.alt == "unlike") {
+            img.src = baseURL +  "/imgs/liked.svg"
+            img.alt = "like"
+        } else {
+            img.src = baseURL + '/imgs/unlike.svg';
+            img.alt = "unlike"
+        }
+    })
+</script>
+
+</html>
